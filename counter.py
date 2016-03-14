@@ -15,7 +15,7 @@ def update_counter(file_name, reset=False):
 
 		file_name: the file that stores the counter to be incremented.  If the file
 				   doesn't exist, a counter is created and initialized to 1.
-		reset: True if the counter in the file should be rest.
+		reset: True if the counter in the file should be reset.
 		returns: the new counter value
 
 	>>> update_counter('blah.txt',True)
@@ -29,7 +29,15 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+	f = open(file_name, 'r+')
+	if reset or not exists(file_name):
+		counter = 1
+	else:
+		counter = load(f) + 1
+		f.seek(0,0)
+	dump(counter, f)
+
+	return counter
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
